@@ -1,0 +1,86 @@
+.TH zapf 1 "31 July 1995" "GIG's Utilities" "Version 1.06"
+.SH NAME
+zapf - ZAP a File.
+.SH SYNOPSIS
+zapf [flags] filename < dumpin
+.SH DESCRIPTION
+Makes byte for byte changes to the specified file
+by reading dump format records from stdin and
+writing the bytes of the hexadecimal dump to the
+locations specified by the displacements.
+
+ZAPF is a simple-minded zap utility
+that works in concert with the DISF and COMF utilities.
+It accepts lines from standard input
+of the form produced by these other utilities
+and changes the corresponding bytes
+in the specified file
+to match the hex dump portion of the input lines.
+Use DISF or COMF to show the hex codes in a file,
+capture these lines in a text file
+and use a text editor to change the hex codes to new values.
+Then feed these lines into ZAPF
+to change the corresponding bytes in the original file.
+
+   % disf fubar > changes
+   % vi           changes
+   % zapf fubar < changes
+
+Note that during the editing process you need to remove
+the header lines produced by DISF or COMF.
+For efficiency, you'll want to remove all lines
+except those on which you change the hex codes.
+.SH PARAMETERS
+.TP 12
+-V
+Specifies that information concerning the
+internal operation of the utility is to be
+written to stdout.
+This "verbose" output is normally used to debug the utility.
+.SH EXAMPLES
+As mentioned above, the simplest use of this utility
+is to capture the output of DISF, edit it,
+and use it as input into ZAPF to change bytes in the original file.
+When using this approach, be sure to remove the DISF header lines.
+They shouldn't do any harm, but it's disconcerting to see the
+warnings from ZAPF when it can't make sense out of these lines.
+For efficiency, you should remove everything except the bytes
+being changed.
+For simplicity, however, that usually means removing all lines
+except those containing bytes being changed.
+
+ZAPF can also be used without DISF or its cohorts.
+To change the third byte of a file to an arbitrary byte 0x1B,
+pipe the necessary "dump" into ZAPF.
+
+   % echo 3 / 3 : 1b | zapf foo
+
+When changing files past byte 10, you need to remember the
+decimal offset comes first.
+The following example changes the last two bytes
+of a 512 byte file to the IBM PC signature bytes.
+
+   % echo 510 / 1fe : 55 aa | zapf disk.dat
+
+You could also crank up the utility and type the lines in
+as if ZAPF were an interactive utility.
+
+   % zapf disk.dat
+   510 / 1fe : 55 aa
+   ^D
+
+Please note, however, that the utility doesn't give you
+any nice feedback to tell you it accepted the input line.
+.SH "SEE ALSO"
+comf(1),
+cvtbt(1),
+cvttb(1),
+disf(1),
+genbf(1).
+.SH BUGS
+On occasion, it'd be handy to be able to make changes
+to the ASCII portion of the DISF format
+and have that zapped into the specified file,
+but currently that part of the format is ignored.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>

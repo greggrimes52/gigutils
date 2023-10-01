@@ -1,0 +1,12 @@
+  1 is the sizeof( char   )
+  2 is the sizeof( short  )
+  4 is the sizeof( int    )
+  4 is the sizeof( long   )
+  4 is the sizeof( float  )
+  8 is the sizeof( double )
+
+  1 is the sizeof( "" )
+  2 is the sizeof( "." )
+  6 is the sizeof( "....+" )
+ 11 is the sizeof( "....+....1" )
+ 51 is the sizeof( "....+....1....+....2....+....3....+....4....+....5" )

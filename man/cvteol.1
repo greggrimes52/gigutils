@@ -1,0 +1,86 @@
+.TH cvteol 1 "31 July 1995" "GIG's Utilities" "Version 1.04"
+.SH NAME
+cvteol - ConVerT End-Of-Line sequences.
+.SH SYNOPSIS
+cvteol [flags] infile outfile
+.SH DESCRIPTION
+CVTEOL was written as an aid to porting source
+back and forth between
+PC, UNIX, and Macintosh platforms.
+It recognizes
+a UNIX style text file,
+which end each line with a single newline (NL),
+or
+a PC style text file,
+which end each line with a carriage return
+followed by a line feed (CRLF),
+or
+a Macintosh style text file,
+which end each line with a single carriage return (CR),
+and converts it to any of these three styles.
+Please note that newline (NL) and line feed (LF)
+are the same ASCII character.
+
+The default behavior converts a non-native file
+to the native style.
+That is, output files are PC style by default
+when the utility is built to run on PC platforms,
+UNIX style on UNIX platforms,
+and Macintosh style on MACs.
+.SH PARAMETERS
+.TP 12
+-M
+Copies text from the input file to the output file
+making each line end with a CRLF (carriage return,
+line feed) sequence.
+This makes an output file consistent with PC style
+text files.
+.TP
+-P
+Copies text from the input file to the output file
+making each line end with a CRLF (carriage return,
+line feed) sequence.
+This makes an output file consistent with PC style
+text files.
+.TP
+-U
+Copies text from the input file to the output file
+making each line end with a NL (new line).
+This makes an output file consistent with UNIX style
+text files.
+.TP
+-V
+Produces a line of debug output for each byte
+copied from the input file to the output file,
+to aid in debugging the utility.
+.SH EXAMPLES
+Convert a source file for use on this platform.
+
+   % cvteol sample.c xfer/sample.c
+
+This command takes the C source file for program SAMPLE,
+transported from another platform to this one,
+and converts it for editing and compiling on this platform
+(Macintosh if we're running on a MAC,
+PC if we're running on a PC,
+or UNIX if we're running on a UNIX box).
+.SH "SEE ALSO"
+cat(1),
+sed(1).
+.SH BUGS
+This utility simply converts all occurrances
+of CRLF pairs, single CRs, and single NLs,
+to the specified end-of-line sequence.
+This behavior also converts
+single carriage returns used in
+UNIX and PC text files where overstriking is done to
+emphasize text.
+The resulting file may not be what's desired.
+
+Because the program opens both input and output files
+for binary reading and writing,
+it's awkward to reopen STDIN and STDOUT in a portable manner.
+Therefore, the program doesn't support reading STDIN or
+writing STDOUT.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>

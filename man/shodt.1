@@ -1,0 +1,103 @@
+.TH shodt 1 "31 July 1995" "GIG's Utilities" "Version 1.05"
+.SH NAME
+shodt - SHOw a Date Time value.
+.SH SYNOPSIS
+shodt [flags] [value]...
+.SH DESCRIPTION
+Displays the current date and time in one of a variety of formats.
+A date/time value may be substituted for the current date and time
+by entering the number of seconds since midnight, Jan 1, 1970,
+as a single, numeric value.
+This value may be specified as a hex constant
+if it is prefixed with "0x".
+.SH PARAMETERS
+.TP 12
+-Wn
+Specifies the day of the week ("Weekday")
+from the date portion of each date/time value
+is to be displayed.
+When "n" is 1, the name of the weekday is spelled out.
+When "n" is 2, a three letter abbreviation for the weekday is shown.
+.TP
+-Cn
+Specifies the date portion of each date/time value
+is to be displayed in a calendar string format.
+When "n" is 1, the month is spelled out followed by
+the day of the month, a comma, and the full year.
+When "n" is 2, an eight byte DDMMMYY format is used
+where MMM is a three character abbreviation for the month.
+.TP
+-Dn
+Specifies the date portion of each date/time value
+is to be displayed in a numeric date string.
+When "n" is 1, a MM/DD/YY format is used.
+When "n" is 2, a YY/MM/DD format is used.
+.TP
+-Jn
+Specifies the date portion of each date/time value
+is to be displayed in a Julian date format.
+A period (".") separates the year from the day values when "n" is 1.
+No period is included when "n" is 2.
+.TP
+-Tn
+Specifies the time portion of each date/time value
+is to be displayed in a digital clock format.
+When "n" is 1, this is an eight byte string showing a 12 hour value
+followed by an "am" or "pm" indicator.
+When "n" is 2, the display is an eight byte 24 hour value.
+.TP
+-Qn
+Specifies that the time values are to be written
+as cute or "quaint" quotes as English sentences.
+When "n" is 1, this sentence has a slight Southern twang to it.
+The sentence is in more matter-of-fact when "n" is 2.
+.TP
+-V
+Specifies that information concerning the
+internal operation of the utility is to be
+written to stdout.
+This "verbose" output is normally used to debug the utility.
+.SH EXAMPLES
+You've got two object files compiled from the same source.
+You'd like to know when they were compiled,
+but you don't trust the filesystem date/time stamps.
+Comparing the object files shows the difference
+in the date/time stamp in the COFF header,
+which you can convert with SHODT to a data and time.
+
+   % comf hi.old hi.o
+   Comparing "hi.old" with "hi.o", byte for byte.
+
+    448 / 1c0:  00000000 2fcca090  00000000 2311b9a8  ..../.va..../.vW
+                               **                            *
+    448 / 1c0:  00000000 2fce7670  00000000 2311b9a8  ..../.vp..../.vW
+
+         708 byte(s) in hi.old
+         708 byte(s) in hi.o
+         707 byte(s) are the same
+           1 byte(s) are different
+   % shodt 0x2fcca090
+   Wednesday, May 31, 1995, 12:00:00pm
+   % shodt 0x2fce7670
+   Thursday, June 1, 1995, 09:24:48pm
+.SH "SEE ALSO"
+date(1).
+.SH BUGS
+Only date/time constants for the host system are valid.
+For PC systems, those are numbers of seconds since Jan 1, 1980.
+For UNIX systems, those are numbers of seconds since Jan 1, 1970.
+For SAS, those are numbers of seconds since Jan 1, 1960.
+It would be nice to have switches allowing for date/time values
+from foreign systems or other sources.
+
+The date/time value entered on the command line
+must have the most significant byte first.
+That means you must know when you're lifting
+a byte-swapped value from a file dump or other source
+and reverse the bytes if need be.
+
+It'd be real nice to be able to go the other way:
+to be able to specify a date/time and have the utility
+produce the corresponding integer value.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>

@@ -1,0 +1,103 @@
+.TH cvtbt 1 "31 July 1995" "GIG's Utilities" "Version 1.05"
+.SH NAME
+cvtbt - ConVerT Binary to Text.
+.SH SYNOPSIS
+cvtbt [flags] binfile txtfile
+.SH DESCRIPTION
+Converts a file containing unprintable (uneditable) characters
+into an editable text file containing multi-byte codes
+for the characters considered unprintable.
+.SH PARAMETERS
+The command line arguments for CVTBT
+are two file specifications and some optional flags.
+The first file specification is the input file,
+the file containing the unprintable (binary) characters.
+The second file specification names the output file,
+the text file to generate.
+The following flags may be used to
+control the conversion process.
+.TP 12
+--S
+Suppress the summary messages.
+.TP
+-Ln
+Produce a newline after <n> bytes.
+If <n> is specified as zero (0),
+no newlines will be produced.
+The default is 72.
+.TP
+-Pn
+Produce a form feed after <n> lines.
+If <n> is specified as zero (0),
+no form feeds will be produced.
+The default is to produce no form feeds.
+.TP
+-Gt
+Consider the data to be graphics streams
+and decode either Tektronix (t=1) or DDL (t=2)
+graphics data.
+.TP
+-A
+Use numeric codes instead of the characters themselves
+in place of printable (editable) characters.
+In other words, use codes for all characters,
+not just unprintable ones.
+.TP
+-N
+Use numeric codes instead of multi-byte character names
+when converting unprintable characters.
+.TP
+-Hx
+Use hex notation for numeric codes.
+These will be either three or four byte codes
+(0x0 thru 0xFF) when "x" is 1,
+or always four byte codes (0x00 thru 0xFF)
+when "x" is 2.
+Hex numbers begin with "0x"
+just like hex constants in C.
+.TP
+-Dx
+Use decimal notation for numeric codes.
+These will be between one and three byte codes
+(0 thru 255) when "x" is 1,
+or always five byte codes (0d000 thru 0d255)
+when "x" is 2.
+Decimal numbers do not begin with a leading zero (0)
+just like decimal constants in C.
+Decimal numbers beginning with "0d"
+are peculiar to the CVTBT and CVTTB utilities.
+.TP
+-Ox
+Use octal notation for numeric codes.
+These will be between two and four byte codes
+(00 thru 0377) when "x" is 1,
+or always five byte codes (0o000 thru 0o377)
+when "x" is 2.
+Octal numbers begin with a leading zero (0)
+just like octal constants in C.
+Octal numbers beginning with "0o"
+are peculiar to the CVTBT and CVTTB utilities.
+.SH EXAMPLES
+A simple minded binary file editing capability
+can be accomplished with the commands
+
+   % cvtbt binfile /tmp/temp
+   % $EDITOR       /tmp/temp
+   % cvttb         /tmp/temp binfile
+
+However, it may not be easy to navigate around
+in the intermediate text file,
+especially if the binary file is long.
+.SH "SEE ALSO"
+comf(1),
+cvttb(1),
+disf(1),
+genbf(1),
+zapf(1).
+.SH BUGS
+It would be extremely handy if the resulting text file
+had its lines broken at newlines in the input file
+so the output bore some resemblence to the input,
+if the input file were a text file.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>

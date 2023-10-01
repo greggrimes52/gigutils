@@ -1,0 +1,23 @@
+Differences between items in these lists
+   SORT0        SORT1       
+   ------------ ------------
+   -            list1       
+   -            orig        
+   -            step1.l     
+   -            step1.t     
+   -            step2.l     
+   -            step2.t     
+   -            step3.l     
+   -            step3.t     
+   -            step4.l     
+   -            step4.t     
+   -            step5.l     
+   -            step5.t     
+   -            step6.l     
+   -            step6.t     
+   -            step7.l     
+   -            step7.t     
+   -            test1       
+   -            test2       
+   -            text0       
+   -            text1       

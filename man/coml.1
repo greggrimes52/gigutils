@@ -1,0 +1,148 @@
+.TH coml 1 "31 July 1995" "GIG's Utilities" "Version 1.04"
+.SH NAME
+coml - COMpare sorted Lists of text
+.SH SYNOPSIS
+coml [flags] file1 file2 [...file32]
+.SH DESCRIPTION
+COML was written to compare
+multiple lists of items and determine
+items common to all lists (the intersection of all sets),
+a complete list of all items (the union),
+as well as a damage report of those items
+missing from one or more lists.
+
+This last result is the default output form,
+and is most useful for determining what files
+are missing from directories that should contain
+the same files, like source tracks.
+
+In reality, COML is simply comparing
+lines of text read from the input files,
+and these files can contain any type of text,
+but the important thing is that the files
+are expected to be SORTED
+in ascending order by the default collating sequence,
+with the entire record being the sort key.
+Also note that you can only specify up to 32 files,
+and the records read from each file cannot exceed
+255 bytes.
+.SH PARAMETERS
+.TP 12
+-A
+Display all items in all input files,
+not just those items that are missing
+from one or more files.
+.TP
+-C
+Display only the items that are common
+to all input files.
+.TP
+-L
+Produce output as a single list of items
+instead of producing output in a report format
+that shows which items came from which files.
+.TP
+-Sn
+Make each output column "n" characters wide.
+Useful for squeezing many input files containing
+short items on one page,
+or for spreading out a few files with long lines
+so the items can be read.
+.TP
+-V
+Spit out a little debug information
+for rooting around in the utility's innards.
+.SH EXAMPLES
+Assume that the Food And Meal Information Services Hostel
+(FAMISH) manages its source in three directories,
+bend, coosbay, and drain,
+each expected to contain the source files
+apple.c, bagel.c, cake.c, donut.c, and eclair.c,
+but each directory is missing one file.
+
+   % ls bend    > B
+   % ls coosbay > C
+   % ls drain   > D
+   % coml B C D
+   Differences between lines in these files
+      B            C            D           
+      ------------ ------------ ------------
+      -            bagel.c      bagel.c     
+      cake.c       -            cake.c      
+      donut.c      donut.c      -           
+
+This quickly shows that
+bend is missing bagel.c,
+coosbay is missing cake.c, and
+drain is missing donut.c
+(how symmetrical).
+To see this report including all files,
+tack the -A option on the command line.
+
+   % coml -a B C D
+   Differences between lines in these files
+      B            C            D           
+      ------------ ------------ ------------
+      apple.c      apple.c      apple.c     
+      -            bagel.c      bagel.c     
+      cake.c       -            cake.c      
+      donut.c      donut.c      -           
+      eclair.c     eclair.c     eclair.c    
+
+You can turn the information in this report
+into a list by adding the -L switch.
+This just happens to be handy to read into
+shell script arrays for processing the list.
+
+   % coml -a -l B C D
+   apple.c
+   bagel.c
+   cake.c
+   donut.c
+   eclair.c
+
+You'll notice the above list corresponds
+to the union of all lists.
+The -C option shows the files
+common to all directories,
+or the intersection of the lists.
+
+   % coml -c B C D
+   Common items between lines in these files
+      B            C            D           
+      ------------ ------------ ------------
+      apple.c      apple.c      apple.c     
+      eclair.c     eclair.c     eclair.c    
+
+And this, too, can be turned into a list
+suitable for processing in a shell script.
+
+   % coml -c -l B C D
+   apple.c
+   eclair.c
+
+Of course, the original damage report output
+can also be turned into a list.
+
+   % coml -l B C D
+   bagel.c
+   cake.c
+   donut.c
+.SH "SEE ALSO"
+sort(1),
+diff(1).
+.SH BUGS
+While sort has the ability to sort records
+based on keys within each record,
+COML expects the files to already be
+sorted, and does not have the ability to
+distinguish fields within a record,
+but uses the entire input record assuming
+it was the sort key.
+
+While COML can determine the union and
+the intersection of sets of data,
+it can't easily determine other manipulations
+such as the difference between sets.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>

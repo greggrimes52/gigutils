@@ -1,0 +1,79 @@
+.TH disf 1 "31 July 1995" "GIG's Utilities" "Version 1.06"
+.SH NAME
+disf - DISplay Files in Hexadecimal and ASCII.
+.SH SYNOPSIS
+disf [flags] file...
+.SH DESCRIPTION
+Displays the contents of the specified files in
+a post-mortem-dump style report including hex
+and ASCII representations of all bytes and the
+offsets from the beginning of the file in decimal
+and hex.
+.SH PARAMETERS
+.TP 12
+-X
+To conserve space and make the output more readable,
+lines of the formatted dump containing identical information
+are suppressed with the message
+
+                - ## lines the same -
+
+On occasion, it's useful to have these lines included
+in the output, such as for mapping the contents of
+control blocks.
+The -X switch deactivates the suppression mechanism
+to include all dumped characters in the output.
+.TP
+-Yn
+The characters shown in the ASCII portion of the dump
+are those considered to be printable, by default.
+All others are replaced with a period (.)
+unless the -Y switch is specified.
+-Y or -Y1 will include characters with values above 127
+in the ASCII portion of the dump.
+-Y2 will also include selected characters with values
+below 32 in the ASCII portion of the dump,
+but this is only useful on PCs.
+.TP
+-Z
+The -Z switch is used for debugging common subroutines
+in GIG's Utilities such as the usdump() code
+used to display the hexadecimal and ASCII dump format.
+Normally, this information is not very useful
+to the casual user.
+.SH EXAMPLES
+On UNIX boxes, it's easy to see that lines are terminated
+with simple newlines with the following example.
+
+   % echo foo > foo
+   % disf foo
+   Hex dump file "foo"
+           0 /      0:  666f6f0a                        foo.
+
+On PCs, we can use the same method to show that lines are
+terminated by a carriage return and line feed pair.
+
+   C:\\> echo foo > foo
+   C:\\> disf foo
+   Hex dump file "FOO"
+           0 /      0:  666f6f20 0d0a                   foo ..
+
+These examples also explain why files are a few bytes longer
+than the text you type into them.
+.SH "SEE ALSO"
+comf(1),
+cvtbt(1),
+cvttb(1),
+genbf(1),
+od(1),
+xd(1),
+zapf(1).
+.SH BUGS
+It would be nice to be able to dump
+only selected parts of a file.
+There is no support for that yet.
+The current intent is to use filters
+like head, tail, and grep to manipulate
+the output of disf.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>

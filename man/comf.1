@@ -1,0 +1,129 @@
+.TH comf 1 "31 July 1995" "GIG's Utilities" "Version 1.06"
+.SH NAME
+comf - COMpare Files byte for byte.
+.SH SYNOPSIS
+comf [flags] file1 file2
+.SH DESCRIPTION
+While utilities like diff exist to compare text files,
+comf was written to quickly compare binary data
+and show bytes that differ between two files.
+
+It does not employ sophisticated algorithms to detect
+inserted or deleted bytes or blocks of bytes that moved.
+It simply produces the hexadecimal and ascii
+representations of the bytes that are found to differ.
+It doesn't even check to insure the files are the
+same size.
+
+For files that are the same size, it is a quick 
+determination if they are identical, and if they
+only differ in a few bytes, the post-mortem dump
+style output quickly shows where and how the bytes
+differ.
+This makes it a good choice to compare things
+like object files produced by a compiler
+where only a date/time stamp is different.
+It is not a good choice to compare graphics
+primitive files where the order of the primitives
+may have changed or one primitive may have one
+more byte than the other.
+
+The return code is set to the number of bytes
+that were found to differ,
+so it can be used in shell scripts to compare
+two files and determine if they are identical.
+.SH PARAMETERS
+.TP 12
+--C
+Normally, lines containing bytes that differ
+are written to stdout,
+due to the -C switch being turned on
+as an internal default.
+Specifying --C turns this switch off
+and no hexidecimal and ascii dump is written to stdout.
+.TP
+--S
+Normally, a summary of the number of bytes read
+from both files, the number of bytes that differ,
+and the number of bytes that are the same are
+written to stdout
+after both files are compared.
+This is by virtue of the -S switch being turned on
+as an internal default.
+Specifying --S turns off this switch
+and suppresses this summary from being printed.
+.TP
+-V
+Normally, only lines containing bytes that differ
+are written to stdout.
+The -V switch forces all lines to be written,
+whether they contain bytes that differ or not.
+.TP
+-Yn
+The characters shown in the ASCII portion of the dump
+are those considered to be printable, by default.
+All others are replaced with a period (.)
+unless the -Y switch is specified.
+-Y or -Y1 will include characters with values above 127
+in the ASCII portion of the dump.
+-Y2 will also include selected characters with values
+below 32 in the ASCII portion of the dump,
+but this is only useful on PCs.
+.TP
+-Z
+The -Z switch is used for debugging common subroutines
+in GIG's Utilities such as the usdump() code
+used to display the hexadecimal and ASCII dump format.
+Normally, this information is not very useful
+to the casual user.
+.TP
+file1 file2
+You must specify the names of both files
+to be compared.
+A future enhancement that would be useful
+is to allow the second name to be a directory
+and the filename of the first file would
+be used for the second.
+.SH EXAMPLES
+Compare the object files produced by compiling a routine
+on two different occasions and shows the object code to
+be identical except for the date/time stamp included in
+the COFF image by the compiler.
+
+   % comf hi.old hi.o
+   Comparing "hi.old" with "hi.o", byte for byte.
+
+    448 / 1c0:  00000000 2fcca090  00000000 2311b9a8  ..../.va..../.vW
+                               **                            *            
+    448 / 1c0:  00000000 2fce7670  00000000 2311b9a8  ..../.vp..../.vW
+
+         708 byte(s) in hi.old
+         708 byte(s) in hi.o
+         707 byte(s) are the same
+           1 byte(s) are different
+.SH "SEE ALSO"
+cvtbt(1),
+cvttb(1),
+disf(1),
+genbf(1),
+zapf(1).
+.SH BUGS
+If the sizes of the files are different,
+but all of the bytes in the shorter file
+are identical to the corresponding bytes
+in the longer file,
+then the return code is set to zero,
+indicating the number of bytes that differ.
+The summary will show the file sizes are
+different,
+but no other indication is given
+that the files are not identical.
+
+Because the UNIX return code is mapped to a byte,
+if the two files differ by a number of bytes
+that is an exact multiple of 256,
+then a false zero will be reported
+and shell scripts may think the files
+are identical.
+.SH AUTHOR
+Greg Grimes <sasgig@unx.sas.com>
