@@ -35,7 +35,7 @@
    static long  totlines = 1;
    static long  totpages = 1;
 
-main(argc,argv)
+int main(argc,argv)
  int argc;
  char   **argv;
 {

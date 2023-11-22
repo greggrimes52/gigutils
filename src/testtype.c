@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdio.h>
 
-main(argc,argv)
+int main(argc,argv)
  int argc;
  char *argv[];
 {

@@ -19,4 +19,4 @@ flags:
         (UNIX style text)
    -V   massive volumes of debug output
 
-Version 1.04  Copyright (c) 1989,1995 Greg Grimes
+Version 1.04  Copyright (c) 1989,2023 Greg Grimes

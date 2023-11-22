@@ -23,8 +23,8 @@ int main(argc,argv)
 {
    char          *ipath;                 /* input  file path name     */
    char          *opath;                 /* output file path name     */
-   int            ifile;                 /* input  file handle        */
-   int            ofile;                 /* output file handle        */
+   FILE          *ifile;                 /* input  file handle        */
+   FILE          *ofile;                 /* output file handle        */
    unsigned char  ibuf[BUFSIZ];          /* read  buffer              */
    unsigned char  obuf[BUFSIZ+2];        /* write buffer              */
    unsigned char *iptr;                  /* read  buffer pointer      */
@@ -106,7 +106,7 @@ int main(argc,argv)
    while(*p) {*p=toupper(*p);p++;}
 #endif
    /* open input file */
-   ifile = open( ipath, O_RDONLY | O_RAW );
+   ifile = fopen( ipath, "r" );
    if(ifile < 0)
       {
       fprintf(stderr,"Unable to open file \"%s\"\n",ipath);
@@ -121,7 +121,7 @@ int main(argc,argv)
    while(*p) {*p=toupper(*p);p++;}
 #endif
    /* open output file */
-   ofile = open( opath, O_WRONLY | O_RAW | O_CREAT | O_TRUNC, 0666 );
+   ofile = fopen( opath, "w" );
    if(ofile < 0)
       {
       fprintf(stderr,"Unable to open file \"%s\"\n",opath);
@@ -144,7 +144,7 @@ int main(argc,argv)
          * means there's no input to process.
          */
         iptr = ibuf;
-        icnt = read(ifile,ibuf,BUFSIZ);
+        icnt = fread(ibuf,1,BUFSIZ,ifile);
         if (icnt <= 0)
           {
            eof = 1;
@@ -213,10 +213,10 @@ int main(argc,argv)
      if (FLAG(v))
        {
         printf("DEBUG: eof=%d ",eof);
-        printf("icnt=%d iptr=%X iptr[-1]=%2.2X(%c) ",
+        printf("icnt=%d iptr=%p iptr[-1]=%2.2X(%c) ",
                 icnt,   iptr,     iptr[-1],
                (isprint(iptr[-1])?iptr[-1]:' '));
-        printf("ocnt=%d optr=%X optr[-1]=%2.2X(%c)\n",
+        printf("ocnt=%d optr=%p optr[-1]=%2.2X(%c)\n",
                 ocnt,   optr,     optr[-1],
                (isprint(optr[-1])?optr[-1]:' '));
        }
@@ -225,7 +225,7 @@ int main(argc,argv)
         if (FLAG(v))
            printf("DEBUG: eof=%d ocnt=%d before writing a block\n",
               eof,ocnt);
-        if (write(ofile,obuf,ocnt) != ocnt)
+        if (fwrite(obuf,1,ocnt,ofile) != ocnt)
           {
            fprintf(stderr,"ERROR writing to output file.\n");
            exit(3);
@@ -238,7 +238,7 @@ int main(argc,argv)
 /**********************************************************************/
 /* Close files and exit.                                              */
 /**********************************************************************/
-   close( ifile );                              /* close input  file  */
-   close( ofile );                              /* close output file  */
+   fclose( ifile );                             /* close input  file  */
+   fclose( ofile );                             /* close output file  */
    exit(0);
 }

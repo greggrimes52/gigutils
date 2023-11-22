@@ -1,9 +1,11 @@
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
 
    static char buffer[1024];
 
-main(argc,argv)
+int main(argc,argv)
  int argc;
  char **argv;
 {

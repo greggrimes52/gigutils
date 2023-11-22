@@ -27,7 +27,7 @@
    static CHAR  line[MAX][ITEMSIZE];
    static char    hyphens[ITEMSIZE+1];
 
-main(argc,argv)
+int main(argc,argv)
  int argc;
  char **argv;
 {

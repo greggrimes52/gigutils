@@ -112,11 +112,19 @@ static int do_it(fname)
 /**********************************************************************/
 /* Loop through input making the specified changes.                   */
 /**********************************************************************/
-   while(gets(inputline) != NULL)      /* read all of stdin           */
+   while(fgets(inputline,(int)sizeof(inputline),stdin) != NULL)
+                                       /* read all of stdin           */
      {
-      if(FLAG(v)) puts(inputline);     /* echo line, if need be       */
-      p = inputline;                   /* start at beginning of line  */
+      if(FLAG(v))
+         fputs(inputline,stdout);      /* echo line, if need be       */
 
+      p = inputline;                   /* start at beginning of line  */
+      while(*p) p++;                   /*    at the end of the line   */
+      p--;                             /*    if the last character    */
+      if (*p == 0x0a)                  /*    is a newline             */
+          *p  = 0;                     /*    zap it                   */
+
+      p = inputline;                   /* start at beginning of line  */
       while(*p == ' ') p++;            /* skip some blanks            */
       dec = 0L;                        /* compute the decimal value   */
       while(*p != ' ' && *p != '/')    /*    of the displacement      */

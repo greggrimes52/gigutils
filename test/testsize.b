@@ -1,7 +1,7 @@
   1 is the sizeof( char   )
   2 is the sizeof( short  )
   4 is the sizeof( int    )
-  4 is the sizeof( long   )
+  8 is the sizeof( long   )
   4 is the sizeof( float  )
   8 is the sizeof( double )
 

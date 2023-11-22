@@ -36,7 +36,7 @@
    if(FLAG(z))
      {
       printf("   USDUMP:\n");
-      printf("      buffer = %lp\n", buf);
+      printf("      buffer = %p\n",  buf);
       printf("      size   = %d\n",  cnt);
       printf("      disp   = %ld\n", disp);
       printf("      flag x = %d\n",  FLAG(x));

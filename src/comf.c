@@ -12,12 +12,12 @@
 #endif
 #define   BUFSIZE 16
 
-main(argc,argv)
+int main(argc,argv)
  int argc;
  char   **argv;
 {
-   int   file1,read1;
-   int   file2,read2;
+   FILE *file1,*file2;
+   int   read1, read2;
    int   i,issame;
    long  size1;
    long  size2;
@@ -40,9 +40,9 @@ main(argc,argv)
 #ifdef DOS
             while(*arg) {*arg=toupper(*arg);arg++;}
 #endif
-            if((file1=open(name1,O_RAW|O_RDONLY)) < 0)
+            if((file1=fopen(name1,"r")) < 0)
                {
-               printf("Unable to open %s, errno=%d (0x%0X).\n",
+               printf("Unable to fopen %s, errno=%d (0x%0X).\n",
                   name1,errno,errno);
                exit(1);
                }
@@ -52,9 +52,9 @@ main(argc,argv)
 #ifdef DOS
             while(*arg) {*arg=toupper(*arg);arg++;}
 #endif
-            if((file2=open(name2,O_RAW|O_RDONLY)) < 0)
+            if((file2=fopen(name2,"r")) < 0)
                {
-               printf("Unable to open %s, errno=%d (0x%0X).\n",
+               printf("Unable to fopen %s, errno=%d (0x%0X).\n",
                   name2,errno,errno);
                exit(1);
                }  
@@ -95,8 +95,8 @@ main(argc,argv)
       {
       for(i=0;i<BUFSIZE;i++) buff1[0] = buff2[0] ^ 15;
 
-      if(read1) size1 += read1 = read(file1,buff1,BUFSIZE);
-      if(read2) size2 += read2 = read(file2,buff2,BUFSIZE);
+      if(read1) size1 += read1 = fread(buff1,1,BUFSIZE,file1);
+      if(read2) size2 += read2 = fread(buff2,1,BUFSIZE,file2);
 
       if(!read1 && !read2)  break;
 
@@ -147,6 +147,9 @@ main(argc,argv)
       printf("%9ld byte(s) are the same\n",same);
       printf("%9ld byte(s) are different\n",diff);
       }
+
+   fclose(file1);
+   fclose(file2);
 
    if(diff>255)
       exit(255);

@@ -88,7 +88,7 @@ static int do_it(fname)
    int            same = 0;              /* line same as last line    */
    int            scnt = 0;              /* suppressed line counter   */
    int            numb;                  /* number of bytes in line   */
-   int            f;                     /* file to read data from    */
+   FILE          *f;                     /* file to read data from    */
    int            p;                     /* read buffer index         */
    int            c;                     /* character from buffer     */
    int            n;                     /* character count in buffer */
@@ -116,8 +116,8 @@ static int do_it(fname)
    hptr = fname;
    while(*hptr) {*hptr=toupper(*hptr);hptr++;}
 #endif
-   f = open( fname, O_RDONLY | O_RAW );         /* open input  file   */
-   if(f < 0)
+   f = fopen( fname, "r" );                     /* open input  file   */
+   if(f == NULL)
       {
       printf("Unable to open file \"%s\"\n",fname);
       return 1;
@@ -129,7 +129,7 @@ static int do_it(fname)
 /* Loop through input dumping to output.                              */
 /**********************************************************************/
    p = 0;                                       /* initialize index   */
-   n = read( f, buffer, BUFSIZ );               /* read a buffer      */
+   n = fread( buffer, 1, BUFSIZ, f );           /* read a buffer      */
    cbuf[0] = buffer[0] ^ 15;                    /* insure not same    */
    while( n > 0 )                               /* for every buffer   */
     {
@@ -167,7 +167,7 @@ static int do_it(fname)
          if ( p >= n )                          /* buffer exhausted?  */
            {
               p = 0;                            /*  re-init index     */
-              n = read( f, buffer, BUFSIZ );    /*  read another      */
+              n = fread( buffer, 1, BUFSIZ, f );/*  read another      */
               if ( n == 0 ) break;              /*  EOF if 0 read     */
            }
        }
@@ -200,6 +200,6 @@ static int do_it(fname)
 /**********************************************************************/
 /* Close all files and return                                         */
 /**********************************************************************/
-   close( f );                                  /* close input  file  */
+   fclose( f );                                 /* close input  file  */
 
 }

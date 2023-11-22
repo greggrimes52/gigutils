@@ -5,9 +5,9 @@
 #ifdef    DOS
 #include "usextm.h"
 #include <dos.h>
-#include <stdlib.h>
 #endif
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 
    static int  argnum;
@@ -176,7 +176,7 @@ static int do_it()
       }
    else
       {
-      printf("Memory Dump starting at %lp which is %ld (0x%lX).\n\n",
+      printf("Memory Dump starting at %p which is %ld (0x%lX).\n\n",
          x.ptr,address,address);
       buffer = x.ptr;
       }
@@ -247,7 +247,7 @@ static int argvalue(arg)
    if(FLAG(V))
       {
       printf("        Address is now %ld (0x%lX).\n",address,address);
-      printf("        Pointer is now %lp\n",x.ptr);
+      printf("        Pointer is now %p\n",x.ptr);
       }
 
    return 0;

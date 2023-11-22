@@ -8,7 +8,7 @@
 #define   O_RAW        0  
 #endif
 
-#ifndef   NULL
+#ifdef    NULL
 #undef    NULL
 #endif
 #define   NULL         0L
@@ -30,7 +30,7 @@
 /* Declare Utility Subsystem Messages                                 */
 /**********************************************************************/
 #define   US_RELEASE   "1"
-#define   US_COPYRIGHT "Version %s.%s  Copyright (c) 1989,1997 Greg Grimes\n",\
+#define   US_COPYRIGHT "Version %s.%s  Copyright (c) 1989,2023 Greg Grimes\n",\
                        US_RELEASE,VERSION
 #define   US_FLAGV     "   -V   Verbose:  include debugging information\n"
 #define   US_FLAGX     "   -X   Show all lines in hexadecimal dump\n"

@@ -1,9 +1,10 @@
 #include "usbits.h"
+#include <stdio.h>
 
 unsigned char x;
 unsigned char ones = 255;
 
-main()
+int main()
 {
    printf("\nOne Bit Macros\n");
 

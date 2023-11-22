@@ -4,13 +4,13 @@
 #include <ctype.h>
 #include <errno.h>
 #include <stdio.h>
+#include <stdlib.h>
 #include <string.h>
 #ifdef DOS
 #define   SLASH    '\\'
 #define   NAMELEN  15
 #define   FILENAME name
 #include <dos.h>
-#include <stdlib.h>
 #else
 #define   SLASH    '/'
 #define   NAMELEN  255
@@ -21,6 +21,7 @@
 #else
 #include <dirent.h>
 #endif
+#include <unistd.h>
 #endif
 
  struct BLOCK
@@ -38,6 +39,12 @@
  static char      *catparm;
  static char          path[128];
  static struct BLOCK  *top;
+
+int do_it(char *arg);
+int vprint(char *tag);
+int vblock(struct BLOCK *block);
+int bldtree(char *catname);
+int runtree(struct BLOCK *block);
 
 
 #define BLOCK_SIZE           sizeof(struct BLOCK)
@@ -394,7 +401,7 @@ int vblock(block)
 {
 
    printf("\nBlock (%p)\n",block);
-   printf("   top       = (%p)",         top,        top);
+   printf("   top       = (%p)",         top);
    printf("   name      = (%p) \"%s\"\n",block->name,block->name);
    printf("   extn      = (%p) \"%s\"\n",block->extn,block->extn);
    printf("   next      = (%p)\n",       block->next);
@@ -558,7 +565,7 @@ int bldtree(catname)
          if(top == lowr)
            {
             if(uppr || prev)
-               printf("WHOOPS!  top==lowr but uppr=%d & prev=%d\n",uppr,prev);
+               printf("WHOOPS!  top==lowr but uppr=%p & prev=%p\n",uppr,prev);
             else
                if(FLAG(v))printf("Yes!  When top==lowr, uppr & prev are 0.\n");
            }

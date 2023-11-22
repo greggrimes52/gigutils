@@ -14,4 +14,4 @@ flags:
    -Sn  Size of table columns (now 12 bytes).
    -V   Debug mode.  Read the code.
 
-Version 1.04  Copyright (c) 1989,1995 Greg Grimes
+Version 1.04  Copyright (c) 1989,2023 Greg Grimes

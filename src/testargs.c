@@ -1,6 +1,7 @@
 #include <ctype.h>
+#include <stdio.h>
 #include "usargs.h"
- main(argc,argv)
+int main(argc,argv)
  int  argc;
  char     *argv[];
 {
@@ -25,7 +26,7 @@
       if(args[i])
          {
          printf("%7d (0x%*.*X) is the value of args[0x%2.2X]",
-            args[i],sizeof(int)*2,sizeof(int)*2,args[i],i);
+            args[i],(int)(sizeof(int)*2),(int)(sizeof(int)*2),args[i],i);
          if(isprint(i))
             printf(" which is FLAG(%c)",i);
          printf("\n");

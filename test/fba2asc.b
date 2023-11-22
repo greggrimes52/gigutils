@@ -1,1 +1,1 @@
-Usage:  ./fba2asc <fbaFile> <ascFile>
+Usage:  com/fba2asc <fbaFile> <ascFile>

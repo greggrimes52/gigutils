@@ -1,1 +1,1 @@
-Pseudo Benchmark since the environments will never be the same.
+Prints the environment variables which are different in each environment.

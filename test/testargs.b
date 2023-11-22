@@ -1,5 +1,5 @@
 argc    = 2
-argv[0] = "./testargs"
+argv[0] = "com/testargs"
 argv[1] = "-?"
 
 

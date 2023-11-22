@@ -20,4 +20,4 @@ where x means:
      1  [0x00], [0d000], [0o000].
      2  [0x0],  [0],     [00].
 
-Version 1.05  Copyright (c) 1989,1995 Greg Grimes
+Version 1.05  Copyright (c) 1989,2023 Greg Grimes
